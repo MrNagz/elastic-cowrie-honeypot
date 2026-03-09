@@ -77,6 +77,7 @@ The honeypot collects several types of attacker activity:
 
 ## Detection Engineering
 
+---
 
 Custom detection rules were implemented to identify suspicious behavior such as:
 
@@ -84,7 +85,7 @@ Custom detection rules were implemented to identify suspicious behavior such as:
 
 cowrie.command : "CMD: wget*"
 
-
+<img src="screenshots/malware_rule.png" width="800">
 ---
 
 ### Credential Brute Force
@@ -92,6 +93,7 @@ cowrie.command : "CMD: wget*"
 
 event.action : "cowrie.login.failed"
 
+<img src="screenshots/bruteforce_rule.png" width="800">
 ---
 
 ### Reconnaissance Commands
@@ -100,6 +102,7 @@ cowrie.command : "CMD: uname*"
 
 These detections simulate the type of alerts commonly implemented in a SOC environment.
 
+<img src="screenshots/recon_rule.png" width="800">
 ---
 
 ## Dashboards
@@ -112,6 +115,11 @@ Custom Kibana dashboards visualize:
 - Geographic attack sources
 - Top attacking IP addresses
 
+<img src="screenshots/dashboard_1.png" width="800">
+
+<img src="screenshots/dashboard_2.png" width="800">
+
+<img src="screenshots/dashboard_3.png" width="800">
 ---
 
 ## Security Considerations
