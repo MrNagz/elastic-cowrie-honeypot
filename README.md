@@ -23,31 +23,6 @@ The goal of this project was to gain hands-on experience with:
 The honeypot runs on a cloud VPS and collects attacker activity which is forwarded to Elastic for analysis.
 
 ```
-Internet
-   │
-   ▼
-┌──────────────────────┐
-│  VPS Honeypot        │
-│  Cowrie SSH Server   │
-└──────────┬───────────┘
-           │
-           ▼
-┌──────────────────────┐
-│ Elastic Agent        │
-│ Log Collection       │
-└──────────┬───────────┘
-           │
-           ▼
-┌──────────────────────┐
-│ Elastic Stack        │
-│ Elasticsearch        │
-│ Kibana               │
-└──────────┬───────────┘
-           │
-           ▼
-     Dashboards &
-     Detection Rules
-```
 
 ---
 
