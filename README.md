@@ -22,11 +22,12 @@ The goal of this project was to gain hands-on experience with:
 
 The honeypot runs on a cloud VPS and collects attacker activity which is forwarded to Elastic for analysis.
 
-```
-
 ---
 
+
 ## Technologies Used
+
+---
 
 - **Cowrie** – SSH/Telnet honeypot
 - **Elastic Cloud** – SIEM and log storage
@@ -40,6 +41,8 @@ The honeypot runs on a cloud VPS and collects attacker activity which is forward
 
 ## Data Pipeline
 
+---
+
 1. Attackers connect to the Cowrie SSH honeypot
 2. Cowrie logs attacker activity in JSON format
 3. Elastic Agent collects and ships logs
@@ -50,6 +53,8 @@ The honeypot runs on a cloud VPS and collects attacker activity which is forward
 ---
 
 ## Telemetry Captured
+
+---
 
 The honeypot collects several types of attacker activity:
 
@@ -72,25 +77,26 @@ The honeypot collects several types of attacker activity:
 
 ## Detection Engineering
 
+
 Custom detection rules were implemented to identify suspicious behavior such as:
 
 ### Malware Download Attempts
 
-```
 cowrie.command : "CMD: wget*"
-```
+
+
+---
 
 ### Credential Brute Force
 
-```
+
 event.action : "cowrie.login.failed"
-```
+
+---
 
 ### Reconnaissance Commands
 
-```
 cowrie.command : "CMD: uname*"
-```
 
 These detections simulate the type of alerts commonly implemented in a SOC environment.
 
